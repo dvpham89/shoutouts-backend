@@ -1,0 +1,5 @@
+{
+  "mongodb": {
+    "uri": "mongodb+srv://dvpham89:kombucha@cluster0.bf0o1an.mongodb.net/labs?retryWrites=true&w=majority"
+  }
+}
