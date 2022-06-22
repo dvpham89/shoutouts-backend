@@ -73,6 +73,28 @@ shoutOutRouter.put("/upvote/:id", async (req, res) => {
   }
 });
 
+shoutOutRouter.put("/downvote/:id", async (req, res) => {
+  const id: string = req.params.id;
+  const user: User = req.body;
+  try {
+    const client = await getClient();
+    const result = await client
+      .db()
+      .collection<ShoutOut>("shoutouts")
+      .updateOne(
+        { _id: new ObjectId(id) },
+        { $pull: { likes: { uid: user.uid } } }
+      );
+    if (result.modifiedCount === 0) {
+      res.status(404).json({ message: "Id not found" });
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    errorResponse(err, res);
+  }
+});
+
 shoutOutRouter.post("/", async (req, res) => {
   const newShoutOut: ShoutOut = req.body;
   try {
